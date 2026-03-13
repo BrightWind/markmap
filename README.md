@@ -22,3 +22,10 @@ Markmap is also available in:
 ## Usage
 
 👉 [Read the documentation](https://markmap.js.org/docs) for more detail.
+
+
+## Quick Command
+```
+pnpm --filter markmap-cli exec node ./bin/cli.js D:\workspace_1\SPKES\markmap\README.md -w --no-open --port 3030
+pnpm --filter markmap-cli exec node ./bin/cli.js README.md -o D:/workspace_1/SPKES/markmap/README.markmap.html --no-ope
+```
