@@ -3,7 +3,7 @@ import { mkdir, stat } from 'fs/promises';
 import { extractAssets } from 'markmap-common';
 import { Transformer } from 'markmap-lib';
 import { baseJsPaths } from 'markmap-render';
-import { dirname, resolve } from 'path';
+import { dirname, isAbsolute, resolve } from 'path';
 import { pipeline } from 'stream/promises';
 import {
   ASSETS_PREFIX,
@@ -80,7 +80,7 @@ async function downloadAsset(
   }
   const url = await resolveUrl();
   let body: ReadableStream;
-  if (url.startsWith('/')) {
+  if (isAbsolute(url)) {
     body = createStreamBody(createReadStream(url));
   } else {
     const res = await fetch(url);
