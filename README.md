@@ -26,5 +26,5 @@ Markmap is also available in:
 ## Quick Command
 ```
 pnpm --filter markmap-cli exec node ./bin/cli.js D:\workspace_1\SPKES\markmap\README.md -w --no-open --port 3030
- pnpm --filter markmap-cli exec node ./bin/cli.js d:\workspace_1\SPKES\markmap\readme.md -o D:/workspace_1/SPKES/markmap/readme.markmap.html --no-open
+pnpm --filter markmap-cli exec node ./bin/cli.js d:\workspace_1\SPKES\markmap\readme.md -o D:/workspace_1/SPKES/markmap/readme.markmap.html --no-open
 ```
