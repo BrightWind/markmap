@@ -35,9 +35,21 @@ async function main() {
       'Watch the input file and update output on the fly, note that this feature is for development only',
     )
     .option('--port <port>', 'Set the port for the devServer to listen')
+    .option(
+      '--initial-expand-level <level>',
+      'Set initial expand level (defaults to 1 when omitted)',
+      (value: string) => {
+        const num = Number(value);
+        if (!Number.isFinite(num)) {
+          throw new Error('--initial-expand-level must be a number');
+        }
+        return num;
+      },
+    )
     .action(async (input: string, cmd) => {
       let { offline } = cmd;
       if (cmd.watch) offline = true;
+      const initialExpandLevel = cmd.initialExpandLevel as number | undefined;
       const content = await readFile(input, 'utf8');
       const output = cmd.output || `${input.replace(/\.\w*$/, '')}.html`;
       if (cmd.watch) {
@@ -45,6 +57,7 @@ async function main() {
           toolbar: cmd.toolbar,
           offline,
           port: +cmd.port || undefined,
+          initialExpandLevel,
         });
         const address = devServer.serverInfo!.address;
         const provider = devServer.addProvider({ filePath: input });
@@ -59,6 +72,7 @@ async function main() {
           open: cmd.open,
           toolbar: cmd.toolbar,
           offline,
+          initialExpandLevel,
         });
       }
     });

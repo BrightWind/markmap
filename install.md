@@ -61,6 +61,20 @@ fs.writeFileSync('output.html', html);
 
 ### CLI 场景下（`markmap-cli`）默认折叠
 
+`markmap-cli` 现在默认等价于：
+
+```bash
+--initial-expand-level 1
+```
+
+即不改 Markdown 也会默认折叠子节点。
+
+如需覆盖默认值，可在命令行指定：
+
+```bash
+pnpm --filter markmap-cli exec node ./bin/cli.js ./demo.md -o ./demo.markmap.html --initial-expand-level 2 --no-open
+```
+
 如果你是通过命令行把 Markdown 转成 HTML，建议在 Markdown 顶部加 frontmatter：
 
 ```md

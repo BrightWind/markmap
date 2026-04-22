@@ -42,7 +42,15 @@ async function checkData() {
     const res = (await resp.json()) as IFileState;
     if (res.content) {
       const value = res.content.value as ITransformResult;
-      mm.setOptions(markmap.deriveOptions(value.frontmatter?.markmap));
+      const frontmatterOptions = value.frontmatter?.markmap || {};
+      const jsonOptions = {
+        ...frontmatterOptions,
+        initialExpandLevel:
+          cliOptions.initialExpandLevel ??
+          frontmatterOptions.initialExpandLevel ??
+          1,
+      };
+      mm.setOptions(markmap.deriveOptions(jsonOptions));
       await mm.setData(value.root);
       if (!state.content.ts) await mm.fit();
     }

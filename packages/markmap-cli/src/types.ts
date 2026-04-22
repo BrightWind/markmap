@@ -10,6 +10,8 @@ export interface IDevelopOptions {
   offline: boolean;
   /** Port number for the devServer to listen. */
   port?: number;
+  /** Initial expand level for markmap nodes. */
+  initialExpandLevel?: number;
 }
 
 export interface IVersionedValue<T = unknown> {

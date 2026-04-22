@@ -22,6 +22,19 @@ export { config };
 
 export * as markmap from 'markmap-lib';
 
+function resolveJsonOptions(frontmatter: unknown, initialExpandLevel?: number) {
+  const frontmatterOptions =
+    ((frontmatter as { markmap?: Record<string, unknown> } | undefined)
+      ?.markmap as Record<string, unknown> | undefined) || {};
+  return {
+    ...frontmatterOptions,
+    initialExpandLevel:
+      initialExpandLevel ??
+      (frontmatterOptions.initialExpandLevel as number | undefined) ??
+      1,
+  };
+}
+
 async function loadFile(path: string) {
   if (path.startsWith(ASSETS_PREFIX)) {
     const relpath = path.slice(ASSETS_PREFIX.length);
@@ -66,7 +79,8 @@ async function inlineAssets(assets: IAssets): Promise<IAssets> {
 }
 
 export async function createMarkmap(
-  options: IMarkmapCreateOptions & IDevelopOptions & { open: boolean },
+  options: IMarkmapCreateOptions &
+    IDevelopOptions & { open: boolean; initialExpandLevel?: number },
 ): Promise<void> {
   const transformer = new Transformer();
   if (options.offline) {
@@ -98,7 +112,7 @@ export async function createMarkmap(
   if (options.offline) assets = await inlineAssets(assets);
   const html = fillTemplate(root, assets, {
     baseJs: [],
-    jsonOptions: (frontmatter as any)?.markmap,
+    jsonOptions: resolveJsonOptions(frontmatter, options.initialExpandLevel),
     urlBuilder: transformer.urlBuilder,
   });
   const output = options.output || 'markmap.html';
